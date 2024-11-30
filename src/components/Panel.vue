@@ -88,26 +88,20 @@
     </div>
 
     <div v-if="activeTab === 'orders'">
-      <!-- Gestão de Pedidos -->
       <h2 class="mb-4">Gestão de Pedidos</h2>
 
-      <!-- Tabela de Pedidos -->
       <table class="table table-bordered">
         <thead>
           <tr>
             <th>ID Pedido</th>
-            <th>Data</th>
-            <th>Valor Total</th>
-            <th>Status</th>
+            <th>Produtos</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="order in orders" :key="order.id">
+          <tr v-for="order in filteredCarts" :key="order.id">
             <td>{{ order.id }}</td>
-            <td>{{ order.date }}</td>
-            <td>R${{ order.total }}</td>
-            <td>{{ order.status }}</td>
+            <td>{{ order.products }}</td>
             <td>
               <button @click="viewOrderDetails(order)" class="btn btn-primary">Ver</button>
               <button @click="editOrder(order)" class="btn btn-warning">Editar</button>
@@ -141,7 +135,7 @@
         </thead>
         <tbody>
           <tr v-for="user in filteredUsers" :key="user.id">
-            <td>{{ user.name }}</td>
+            <td>{{ user.name.firstname }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.city }}</td>
             <td>
@@ -158,7 +152,7 @@
 
 <script>
 import axios from 'axios';
-
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'AdminPanel',
   data() {
@@ -175,6 +169,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['allUsers', 'allCategories', 'allCarts']),
     filteredProducts() {
       let products = this.products;
       if (this.productSearch) {
@@ -192,9 +187,32 @@ export default {
     },
     filteredUsers() {
       return this.users.filter(user => user.name.toLowerCase().includes(this.userSearch.toLowerCase()));
+    },
+    filteredUsers() {
+      let users = this.allUsers;
+      
+      if (this.search) {
+        users = users.filter(user => 
+          `${user.name.firstname} ${user.name.lastname}`
+            .toLowerCase()
+            .includes(this.search.toLowerCase())
+        );
+      }
+
+      if (this.selectedCategory) {
+        users = users.filter(user => user.category === this.selectedCategory);
+      }
+
+      return users;
+    },
+    filteredCarts() {
+      let carts = this.allCarts;
+
+      return carts;
     }
   },
   methods: {
+    ...mapActions(['fetchUsers', 'allUsers', 'fetchCarts']),
     setActiveTab(tab) {
       this.activeTab = tab;
     },
@@ -230,13 +248,6 @@ export default {
       this.$router.push(`/products/${product.id}`);
     },
 
-    async fetchOrders() {
-      this.orders = [
-        { id: 1, date: '2024-11-01', total: 120, status: 'Em Processamento' },
-        { id: 2, date: '2024-11-10', total: 200, status: 'Enviado' }
-      ];
-    },
-
     addOrder() {
       alert('Adicionando pedido');
     },
@@ -251,13 +262,6 @@ export default {
 
     viewOrderDetails(order) {
       alert(`Detalhes do pedido ${order.id}`);
-    },
-
-    async fetchUsers() {
-      this.users = [
-        { id: 1, name: 'João', email: 'joao@example.com', city: 'São Paulo' },
-        { id: 2, name: 'Maria', email: 'maria@example.com', city: 'Rio de Janeiro' }
-      ];
     },
 
     addUser() {
@@ -275,8 +279,7 @@ export default {
   created() {
     this.fetchProducts();
     this.fetchCategories();
-    this.fetchOrders();
-    this.fetchUsers();
+    this.fetchCarts(); 
   }
 };
 </script>

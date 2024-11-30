@@ -1,3 +1,115 @@
+# Painel de Controle da Loja Online
+
+Este é um painel de controle desenvolvido com **Vue.js 3** para gerenciar e monitorar uma loja online simulada utilizando a API **Fake Store**. O painel oferece funcionalidades para gerenciar **produtos**, **carrinhos de compras (pedidos)** e **usuários**, além de fornecer uma visão geral dos indicadores da loja.
+
+## Funcionalidades Principais
+
+### 1. **Visão Geral do Painel**
+
+Na página inicial, o painel exibe informações essenciais sobre a loja:
+
+- **Total de produtos**
+- **Número de categorias**
+- **Quantidade do pedido** (com base nos carrinhos)
+- **Número total de usuários**
+
+### 2. **Gestão de Produtos**
+
+- **Exibição de Produtos**: A tabela exibe todos os produtos da loja com as colunas: Nome, Categoria, Preço e Classificação.
+- **Filtros e Ordenação**: É possível filtrar produtos por categoria e ordenar por preço ou classificação.
+- **Detalhes do Produto**: Um modal exibe detalhes de um produto específico, permitindo sua edição ou exclusão.
+- **Adicionar Produtos**: Funcionalidade para adicionar novos produtos à loja.
+
+### 3. **Gestão de Carrinho (Pedidos)**
+
+- **Exibição de Pedidos**: A tabela de pedidos exibe informações como ID do pedido, data, valor total e status.
+- **Detalhes do Pedido**: Permite visualizar os detalhes de um pedido, incluindo os produtos e suas quantidades.
+- **Edição e Atualização de Pedidos**: Permite editar a quantidade de produtos em um pedido e atualizar os carrinhos.
+
+### 4. **Gestão de Usuários**
+
+- **Exibição de Usuários**: A tabela de usuários exibe nome, e-mail e cidade de cada usuário.
+- **Pesquisa de Usuários**: É possível buscar usuários específicos através de um campo de pesquisa.
+- **Adicionar e Editar Usuários**: Funcionalidade para adicionar, editar ou remover usuários da loja.
+
+### 5. **Autenticação**
+
+- **Tela de Login**: A primeira tela do painel exige login. A autenticação é feita através do endpoint `/auth/login` da API.
+- **Mensagens de Erro**: Em caso de falha no login, o sistema exibe uma mensagem de erro apropriada.
+
+## Estrutura de Componentes
+
+### 1. **Página de Login**
+
+- **Componente Login.vue**: Tela inicial onde o usuário insere suas credenciais (usuário e senha) para acessar o painel.
+  
+### 2. **Painel de Controle**
+
+- **Componente Dashboard.vue**: A tela inicial do painel, exibindo os indicadores gerais da loja (produtos, categorias, pedidos, usuários).
+  
+### 3. **Gestão de Produtos**
+
+- **Componente ProductList.vue**: Exibe todos os produtos e permite adicionar novos, editar ou excluir.
+- **Componente ProductModal.vue**: Modal de detalhes de um produto com a possibilidade de edição e exclusão.
+- **Componente ProductForm.vue**: Formulário para adicionar ou editar um produto.
+
+### 4. **Gestão de Carrinho (Pedidos)**
+
+- **Componente CartList.vue**: Exibe todos os pedidos com seus detalhes.
+- **Componente CartDetails.vue**: Exibe os detalhes de um pedido específico e permite editar os itens do carrinho.
+
+### 5. **Gestão de Usuários**
+
+- **Componente UserList.vue**: Exibe todos os usuários com nome, e-mail e cidade. Permite editar, remover ou adicionar usuários.
+- **Componente UserForm.vue**: Formulário para adicionar ou editar informações de usuários.
+
+## Tecnologias Utilizadas
+
+- **Vue.js 3**: Framework JavaScript para construção de interfaces reativas.
+- **Vue Router**: Para navegação entre as páginas do painel.
+- **Vuex**: Para gerenciamento de estado global da aplicação.
+- **Axios**: Para realizar requisições HTTP à API da loja.
+- **Bootstrap 5**: Framework CSS para design responsivo e componentes de interface de usuário.
+- **FontAwesome**: Para ícones.
+
+## Instruções de Execução
+
+### Pré-requisitos
+
+Certifique-se de ter os seguintes itens instalados:
+
+- **Node.js**: Você pode baixar o Node.js a partir do [site oficial](https://nodejs.org/).
+- **npm** ou **yarn**: O npm é instalado junto com o Node.js.
+
+### Passos para Executar o Projeto
+
+1. **Clone o repositório:**
+
+   ```bash
+   git clone https://github.com/seu-usuario/loja-online-dashboard.git
+
+2. **Instalar dependencias:**
+
+   ```bash
+   npm install
+3. **Rodar projeto:**
+
+   ```bash
+   npm run serve
+
+4. **Abrir url projeto:**
+Abra o navegador e vá para http://localhost:8080.
+
+# Endpoints api:
+Produtos: https://fakestoreapi.com/products
+Categorias de Produtos: https://fakestoreapi.com/products/categories
+Carrinhos: https://fakestoreapi.com/carts
+Usuários: https://fakestoreapi.com/users
+Autenticação: https://fakestoreapi.com/auth/login
+
+
+
+
 Cenário
 Você tem um novo trabalho para criar um painel de controle para ficar de olho e gerenciar as informações de uma loja online. A API Fake Store fornece informações detalhadas sobre produtos, categorias, carrinhos (pedidos) e usuários. Sua tarefa é usar esses dados e mostrá-los em um painel útil e fácil de usar. 🛒
 
@@ -37,7 +149,7 @@ Liste todos os usuários. OK
 
 Visualize os detalhes de um usuário específico. OK
 
-Adicione, atualize e remova usuários. OK +-
+Adicione, atualize e remova usuários. OK 
 
 Faça login (para acessar o painel com as credenciais fornecidas). ok
 
@@ -60,7 +172,7 @@ Implemente uma tabela para exibir todos os produtos com as colunas: Nome, Catego
 
 Adicione filtros por categoria e ordenação por preço ou classificação. ok
 
-Implemente um modal para ver os detalhes de um produto e permitir a edição ou exclusão. ok +-
+Implemente um modal para ver os detalhes de um produto e permitir a edição ou exclusão. ok
 
 Adicione novos produtos à loja.
 

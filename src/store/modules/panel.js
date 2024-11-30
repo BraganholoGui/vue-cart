@@ -7,9 +7,9 @@ const state = {
 };
 
 const getters = {
-  allProducts: (state) => state.products,
-  allCategories: (state) => state.categories,
-  singleProduct: (state) => state.product,
+  allProductsPanel: (state) => state.products,
+  allCategoriesPanel: (state) => state.categories,
+  singlePanel: (state) => state.product,
 };
 
 const actions = {

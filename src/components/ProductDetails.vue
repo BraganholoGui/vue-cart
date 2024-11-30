@@ -1,7 +1,7 @@
 <template>
   <div class="container my-4" style="display: flex; justify-content: space-around;">
     <!-- Exibição de Informações do Produto -->
-    <div v-if="product" class="text-center col-md-6"  >
+    <div v-if="product" class="text-center col-md-6">
       <h1 class="display-4">{{ product.title }}</h1>
       <img :src="product.image" alt="product.title" class="rounded-lg shadow mb-3" style="width: 200px; height: 200px;">
       <p>{{ product.description }}</p>

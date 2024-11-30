@@ -5,7 +5,7 @@ import { handleError } from '../../utils/errorHandler';
 const API_URL = 'https://fakestoreapi.com/users';
 
 const state = {
-  users: [],
+  users: JSON.parse(localStorage.getItem('users')) || [],
   user: null,
 };
 
@@ -17,43 +17,81 @@ const getters = {
 
 const actions = {
   async fetchUsers({ commit }) {
-    const response = await axios.get(API_URL);
-    commit('setUsers', response.data);
+    if (state.users.length === 0) {
+      const response = await axios.get(API_URL);
+      commit('setUsers', response.data);
+      localStorage.setItem('users', JSON.stringify(response.data));
+    }
   },
+
   async fetchUser({ commit }, id) {
-    const response = await axios.get(`${API_URL}/${id}`);
-    commit('setUser', response.data);
-    console.log(response)
-    return response;
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    const user = storedUsers.find((user) => user.id === id);
+    console.log(user)
+    if (user) {
+      commit('setUser', user); 
+    } else {
+      if(id != "new"){
+        const response = await axios.get(`${API_URL}/${id}`);
+        console.log(response)
+        commit('setUser', response.data);
+        storedUsers.push(response.data);
+        localStorage.setItem('users', JSON.stringify(storedUsers)); 
+      }
+    }
   },
+
   async addUser({ commit }, user) {
     try {
-      validateUser(user);
       const response = await axios.post(API_URL, user);
       commit('newUser', response.data);
+      console.log(response.data)
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users.push(user);
+      localStorage.setItem('users', JSON.stringify(users)); 
     } catch (error) {
-      handleError(error);
+      console.log(error)
     }
   },
-  async updateUser({ commit }, user) {
+
+  async updateUser({ commit }, updatedUser) {
     try {
-      validateUser(user);
-      const response = await axios.put(`${API_URL}/${user.id}`, user);
+      const response = await axios.put(`${API_URL}/${updatedUser.id}`, updatedUser);
       commit('updateUser', response.data);
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users = users.map(user =>
+        user.id === updatedUser.id ? response.data : user
+      );
+      localStorage.setItem('users', JSON.stringify(users));
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async deleteUser({ commit }, id) {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      commit('removeUser', id);
+
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users = users.filter(user => user.id !== id);
+      localStorage.setItem('users', JSON.stringify(users)); 
     } catch (error) {
       handleError(error);
     }
-  },
-  async deleteUser({ commit }, id) {
-    await axios.delete(`${API_URL}/${id}`);
-    commit('removeUser', id);
   },
 };
 
 const mutations = {
-  setUsers: (state, users) => (state.users = users),
-  setUser: (state, user) => (state.user = user),
-  newUser: (state, user) => state.users.push(user),
+  setUsers: (state, users) => {
+    state.users = users;
+  },
+  setUser: (state, user) => {
+    state.user = user;
+  },
+  newUser: (state, user) => {
+    state.users.push(user);
+  },
   updateUser: (state, updatedUser) => {
     const index = state.users.findIndex(user => user.id === updatedUser.id);
     if (index !== -1) {

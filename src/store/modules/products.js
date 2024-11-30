@@ -1,57 +1,100 @@
 import axios from 'axios';
 
 const state = {
-  products: [],
-  categories: [],
+  products: JSON.parse(localStorage.getItem('products')) || [],
+  categories: JSON.parse(localStorage.getItem('categories')) || [],
   product: null,
 };
 
 const getters = {
-  allProducts: (state) => state.products,
+  allProducts: (state) => JSON.parse(localStorage.getItem('products')) || state.products,
   allCategories: (state) => state.categories,
   singleProduct: (state) => state.product,
 };
 
 const actions = {
   async fetchProducts({ commit }) {
-    const response = await axios.get('https://fakestoreapi.com/products');
-    commit('setProducts', response.data);
+    if (state.products.length === 0) {
+      let all = [];
+      const response = await axios.get('https://fakestoreapi.com/products');
+      const itemsStorage =  JSON.parse(localStorage.getItem('products'))
+      console.log(itemsStorage)
+      if(itemsStorage){
+        all = [...response.data, ...itemsStorage]
+      }else{
+        all = response.data
+      }
+      commit('setProducts', all);
+      localStorage.setItem('products', JSON.stringify(response.data)); 
+    }
   },
+
   async fetchCategories({ commit }) {
-    const response = await axios.get('https://fakestoreapi.com/products/categories');
-    commit('setCategories', response.data);
+    if (state.categories.length === 0) {
+      const response = await axios.get('https://fakestoreapi.com/products/categories');
+      commit('setCategories', response.data);
+      localStorage.setItem('categories', JSON.stringify(response.data));
+    }
   },
+
   async fetchProduct({ commit }, id) {
     const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
-    commit('setProduct', response.data);
+    if(!response){
+      const lista = JSON.parse(localStorage.getItem('products'))
+      const item = lista.find(item => item.id == id)
+      commit('setProduct', item);
+      
+    }else{
+      commit('setProduct', response.data);
+    }
   },
+
   async addProduct({ commit }, product) {
     try {
       const response = await axios.post('https://fakestoreapi.com/products', product);
-      commit('newProduct', response.data); // Adiciona o produto à lista após a criação
+      commit('newProduct', response.data);
+      
+      let products = JSON.parse(localStorage.getItem('products')) || [];
+      console.lo
+      products.push(response.data);
+      localStorage.setItem('products', JSON.stringify(products));
     } catch (error) {
       console.error('Erro ao adicionar produto', error);
-      throw error;
     }
   },
+
   async updateProduct({ commit }, updatedProduct) {
     try {
       const response = await axios.put(`https://fakestoreapi.com/products/${updatedProduct.id}`, updatedProduct);
-      commit('updateProduct', response.data); 
+      commit('updateProduct', response.data);
+      
+      let products = JSON.parse(localStorage.getItem('products')) || [];
+      products = products.map(product =>
+        product.id === updatedProduct.id ? response.data : product
+      );
+      localStorage.setItem('products', JSON.stringify(products));
     } catch (error) {
       console.error('Erro ao atualizar produto', error);
-      throw error;
     }
   },
+
   async deleteProduct({ commit }, id) {
     try {
       await axios.delete(`https://fakestoreapi.com/products/${id}`);
-      commit('removeProduct', id); 
+  
+      commit('removeProduct', id);
+  
+      let products = JSON.parse(localStorage.getItem('products')) || [];
+      products = products.filter(product => product.id !== id);
+      localStorage.setItem('products', JSON.stringify(products)); 
+  
+      window.location.reload();
+  
     } catch (error) {
       console.error('Erro ao excluir produto', error);
-      throw error;
     }
   },
+  
 };
 
 const mutations = {

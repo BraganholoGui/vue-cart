@@ -1,8 +1,16 @@
 <template>
   <div>
-    <h1 class="my-4">Usuários</h1>
-    
-    <!-- Barra de Pesquisa, Filtro e Ordenação -->
+    <div style="display: flex; justify-content: space-between;">
+      <h1 class="text-center mb-5 text-3xl font-bold">Usuários</h1>
+      <div style="gap: 5px; display: flex;">
+        <button style="border-radius: 15px; background-color: cadetblue; padding: 5px; width: 100px; height: 50px;" @click="cleanCache">
+        LIMPAR 
+        </button>
+        <button style="border-radius: 15px; background-color:aqua; padding: 5px; width: 200px; height: 50px;" @click="redirect">
+          NOVO USUÁRIO
+        </button>
+      </div>
+    </div>
     <div class="row mb-4">
       <div class="col-md-4">
         <input type="text" class="form-control" v-model="search" placeholder="Buscar usuários">
@@ -26,7 +34,7 @@
       <div class="col-md-4 mb-4" v-for="user in filteredUsers" :key="user.id">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{ user.name.firstname }} {{ user.name.lastname }}</h5>
+            <h5 class="card-title">{{ user.name?.firstname || user.username }} {{ user.name?.lastname || '' }}</h5>
             <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
             <p class="card-text"><strong>Telefone:</strong> {{ user.phone }}</p>
             <div class="d-flex justify-content-between">
@@ -38,12 +46,6 @@
       </div>
     </div>
 
-    <!-- Formulário de Adicionar Novo Usuário -->
-    <form @submit.prevent="addUser" class="d-flex">
-      <input v-model="newUser.firstname" class="form-control me-2" placeholder="Nome" />
-      <input v-model="newUser.lastname" class="form-control me-2" placeholder="Sobrenome" />
-      <button type="submit" class="btn btn-primary">Adicionar Usuário</button>
-    </form>
   </div>
 </template>
 
@@ -56,7 +58,7 @@ export default {
     return {
       search: '',
       selectedCategory: '',
-      sortOrder: 'name', // Ordenação inicial por nome
+      sortOrder: 'name',
       newUser: {
         firstname: '',
         lastname: '',
@@ -67,7 +69,6 @@ export default {
   computed: {
     ...mapGetters(['allUsers', 'allCategories']),
     
-    // Filtra os usuários com base na pesquisa
     filteredUsers() {
       let users = this.allUsers;
       
@@ -79,7 +80,6 @@ export default {
         );
       }
 
-      // Filtro por categoria, caso haja categorias
       if (this.selectedCategory) {
         users = users.filter(user => user.category === this.selectedCategory);
       }
@@ -90,40 +90,16 @@ export default {
   methods: {
     ...mapActions(['fetchUsers', 'addUser', 'deleteUser', 'fetchUser']),
     
-    // Função para adicionar novo usuário
-    async addUser() {
-      try {
-        await this.addUser(this.newUser);
-        this.newUser.firstname = '';
-        this.newUser.lastname = '';
-      } catch (error) {
-        alert(error.message);
-      }
-    },
-    
-    // Visualizar detalhes do usuário
     async viewUser(id) {
       try {
-        const response = await this.fetchUser(id);
-        this.selectedUser = response.data;
+        // const response = await this.fetchUser(id);
+        // this.selectedUser = response.data;
         this.$router.push(`/users/${id}`);
       } catch (error) {
         alert(error.message);
       }
     },
 
-    // Excluir usuário
-    async deleteUser(id) {
-      try {
-        await this.deleteUser(id);
-        alert("Usuário excluído com sucesso");
-        this.fetchUsers(); // Recarrega a lista de usuários após a exclusão
-      } catch (error) {
-        alert(error.message);
-      }
-    },
-
-    // Função de ordenação dos usuários
     sortUsers() {
       if (this.sortOrder === 'name') {
         this.allUsers.sort((a, b) => {
@@ -135,15 +111,19 @@ export default {
         this.allUsers.sort((a, b) => a.email.localeCompare(b.email));
       }
     },
-
-    // Função para filtrar por categoria, caso necessário
     filterByCategory() {
-      this.fetchUsers(); // Recarrega os usuários filtrados por categoria
+      this.fetchUsers(); 
+    },
+    redirect(){
+      this.$router.push('/users/new');
+    },
+    cleanCache(){
+      localStorage.removeItem('users')
+      window.location.reload();
     }
   },
   created() {
-    this.fetchUsers(); // Carrega os usuários no início
-    // this.fetchCategories(); // Carrega as categorias caso exista algum filtro
+    this.fetchUsers(); 
   },
 };
 </script>

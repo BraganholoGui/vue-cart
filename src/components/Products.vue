@@ -1,6 +1,16 @@
 <template>
   <div class="container py-5">
-    <h1 class="text-center mb-5 text-3xl font-bold">Produtos</h1>
+    <div style="display: flex; justify-content: space-between;">
+      <h1 class="text-center mb-5 text-3xl font-bold">Produtos</h1>
+      <div style="gap: 5px; display: flex;">
+        <button style="border-radius: 15px; background-color: cadetblue; padding: 5px; width: 100px; height: 50px;" @click="cleanCache">
+        LIMPAR 
+        </button>
+        <button style="border-radius: 15px; background-color:aqua; padding: 5px; width: 200px; height: 50px;" @click="redirectProduct">
+          NOVO PRODUTO
+        </button>
+      </div>
+    </div>
 
     <div class="row mb-4">
       <div class="col-12 col-md-4 mb-3 mb-md-0">
@@ -40,7 +50,6 @@
         class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
       >
         <div class="card h-100">
-          
           <div class="card-body d-flex flex-column">
             <h5 class="card-title mb-3 text-truncate">{{ product.title }}</h5>
             <p class="card-text text-truncate mb-3">{{ product.description }}</p>
@@ -68,6 +77,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import products from '../store/modules/products';
 
 export default {
   name: 'Products',
@@ -103,6 +113,13 @@ export default {
         this.allProducts.sort((a, b) => b.rating.rate - a.rating.rate);
       }
     },
+    redirectProduct(){
+      this.$router.push('/products/new');
+    },
+    cleanCache(){
+      localStorage.removeItem('products')
+      window.location.reload();
+    }
   },
   created() {
     this.fetchProducts();
