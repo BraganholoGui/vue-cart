@@ -66,7 +66,8 @@
 
         <button
           type="submit"
-          class="btn btn-primary w-100"
+          class="btn w-100"
+           style="background-color: #197278; color:white ;"
         >
           {{ product ? 'Editar Produto' : 'Cadastrar Produto' }}
         </button>
@@ -92,13 +93,15 @@
           <div class="modal-footer">
             <button
               @click="confirmSubmit"
-              class="btn btn-success"
+              class="btn "
+              style="background-color: #6FEDB7; color:white ;"
             >
               Confirmar
             </button>
             <button
               @click="closeModal"
-              class="btn btn-danger"
+              class="btn"
+              style="background-color: #C42021; color:white ;"
             >
               Cancelar
             </button>
@@ -134,36 +137,31 @@ export default {
   methods: {
     ...mapActions(['fetchProduct', 'addProduct', 'updateProduct']),
     
-    // Abre o modal
     openModal() {
       this.isModalVisible = true;
     },
     
-    // Fecha o modal
     closeModal() {
       this.isModalVisible = false;
     },
     
-    // Confirma a ação de cadastro ou edição
     confirmSubmit() {
       if (this.product) {
-        // Se estamos editando um produto, usamos a ação de update
         this.updateProduct({ id: this.product.id, ...this.newProduct }).then(() => {
           alert('Produto editado com sucesso!');
-          this.closeModal(); // Fecha o modal após confirmação
+          this.closeModal();
         }).catch((error) => {
           console.error("Erro ao editar produto:", error);
-          this.closeModal(); // Fecha o modal mesmo em caso de erro
+          this.closeModal(); 
         });
       } else {
-        // Se estamos criando um novo produto, usamos a ação de add
         this.addProduct(this.newProduct).then(() => {
-          this.newProduct = { title: '', description: '', price: 0, image: '' }; // Limpa o formulário
+          this.newProduct = { title: '', description: '', price: 0, image: '' }; 
           alert('Produto cadastrado com sucesso!');
-          this.closeModal(); // Fecha o modal após confirmação
+          this.closeModal(); 
         }).catch((error) => {
           console.error("Erro ao cadastrar produto:", error);
-          this.closeModal(); // Fecha o modal mesmo em caso de erro
+          this.closeModal(); 
         });
       }
     }
@@ -171,13 +169,12 @@ export default {
   created() {
     const productId = this.$route.params.id;
     if (productId) {
-      this.fetchProduct(productId); // Carregar o produto se um ID for fornecido
+      this.fetchProduct(productId); 
     }
   },
   watch: {
     product(newProduct) {
       if (newProduct) {
-        // Preenche o formulário com os dados do produto para edição
         this.newProduct = { ...newProduct };
       }
     }

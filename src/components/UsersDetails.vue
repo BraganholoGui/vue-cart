@@ -67,7 +67,7 @@
           <input type="text" id="long" v-model="newUser.address.geolocation.long" required class="form-control" placeholder="Digite a longitude" />
         </div>
 
-        <button type="button" @click="submitData" class="btn btn-primary w-100">
+        <button type="button" @click="submitData" class="btn w-100"  style="background-color: #197278; color:white ;">
           {{ user ? 'Atualizar Dados' : 'Cadastrar Usuário' }}
         </button>
       </form>
@@ -88,7 +88,7 @@
         </ul>
         <div class="d-flex justify-content-between">
           <button @click="submitData" class="btn btn-success">Confirmar</button>
-          <button @click="closeModal" class="btn btn-danger">Cancelar</button>
+          <button @click="closeModal" class="btn " style="background-color: #C42021; color:white ;">Cancelar</button>
         </div>
       </div>
     </div>

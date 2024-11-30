@@ -76,14 +76,13 @@
             <td>R${{ product.price }}</td>
             <td>{{ product.rating.rate }} / 5</td>
             <td>
-              <button @click="viewProductDetails(product)" class="btn btn-primary">Ver</button>
-              <button @click="editProduct(product)" class="btn btn-warning">Editar</button>
-              <button @click="deleteProduct(product.id)" class="btn btn-danger">Excluir</button>
+              <button @click="editProduct(product)" class="btn "  style="background-color: #197278; color:white ;">Editar</button>
+              <button @click="deleteProduct(product.id)" class="btn "  style="background-color: #C42021; color:white ;">Excluir</button>
             </td>
           </tr>
         </tbody>
       </table>
-      <button @click="addProduct" class="btn btn-success">Adicionar Produto</button>
+      <button @click="addProduct" class="btn "style="background-color: #6FEDB7; color:white ;">Adicionar Produto</button>
 
     </div>
 
@@ -103,9 +102,8 @@
             <td>{{ order.id }}</td>
             <td>{{ order.products }}</td>
             <td>
-              <button @click="viewOrderDetails(order)" class="btn btn-primary">Ver</button>
-              <button @click="editOrder(order)" class="btn btn-warning">Editar</button>
-              <button @click="deleteOrder(order.id)" class="btn btn-danger">Excluir</button>
+              <button @click="editOrder(order)" class="btn " style="background-color: #197278; color:white ;">Editar</button>
+              <button @click="deleteOrder(order.id)" class="btn"  style="background-color: #C42021; color:white ;">Excluir</button>
             </td>
           </tr>
         </tbody>
@@ -139,8 +137,8 @@
             <td>{{ user.email }}</td>
             <td>{{ user.city }}</td>
             <td>
-              <button @click="editUser(user)" class="btn btn-warning">Editar</button>
-              <button @click="deleteUser(user.id)" class="btn btn-danger">Excluir</button>
+              <button @click="editUser(user)" class="btn"  style="background-color: #197278; color:white ;">Editar</button>
+              <button @click="deleteUser(user.id)" class="btn "  style="background-color: #C42021; color:white ;">Excluir</button>
             </td>
           </tr>
         </tbody>

@@ -5,7 +5,6 @@ export function validateUser(user) {
   if (!user.name || typeof user.name !== 'string') {
     throw new ValidationError('Invalid name', HttpStatus.BAD_REQUEST);
   }
-  // Adicione outras validações conforme necessário
   return null;
 }
 

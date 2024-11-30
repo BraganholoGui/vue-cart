@@ -42,22 +42,21 @@ const actions = {
       }
     } catch (error) {
       console.error("Erro ao atualizar carrinho:", error);
-      return Promise.reject(error); // Retorna uma Promise rejeitada em caso de erro
+      return Promise.reject(error);
     }
   },
   async fetchCarts({ commit }) {
     if (state.carts.length === 0) {
       const response = await axios.get('https://fakestoreapi.com/carts');
       commit('setCarts', response.data);
-      localStorage.setItem('carts', JSON.stringify(response.data)); // Armazena no localStorage
+      localStorage.setItem('carts', JSON.stringify(response.data)); 
     }
   },
 
-  // Ação para buscar os detalhes de um carrinho específico
   async fetchCartDetails({ commit }, cartId) {
     const cart = state.carts.find(cart => cart.id === cartId);
     if (cart) {
-      commit('setCartDetails', cart); // Retorna o carrinho se encontrado
+      commit('setCartDetails', cart);
     } else {
       const response = await axios.get(`https://fakestoreapi.com/carts/${cartId}`);
       commit('setCartDetails', response.data);
@@ -94,23 +93,6 @@ const actions = {
     }
   },
 
-  // async updateCartItem({ commit, state }, { cartId, productId, newQuantity }) {
-  //   const cartIndex = state.carts.findIndex(cart => cart.id === cartId);
-  //   if (cartIndex !== -1) {
-  //     const cart = state.carts[cartIndex];
-  //     const item = cart.products.find(item => item.productId === productId);
-
-  //     if (item) {
-  //       item.quantity = newQuantity;
-  //       commit('updateCart', cart);
-  //       localStorage.setItem('carts', JSON.stringify(state.carts)); 
-  //     } else {
-  //       console.error('Item não encontrado');
-  //     }
-  //   } else {
-  //     console.error('Carrinho não encontrado');
-  //   }
-  // },
 };
 
 const mutations = {

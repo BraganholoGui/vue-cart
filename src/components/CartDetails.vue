@@ -9,8 +9,8 @@
       <ul class="list-group">
         <li v-for="(item, index) in cart.products" :key="index" class="list-group-item">
           Produto ID: {{ item.productId }} - Quantidade: {{ item.quantity }}
-          <button @click="editItem(index)" class="btn btn-warning btn-sm ml-2">Editar</button>
-          <button @click="removeItem(index)" class="btn btn-danger btn-sm ml-2">Remover</button>
+          <button @click="editItem(index)" class="btn btn-sm ml-2"  style="background-color: #197278; color:white ;">Editar</button>
+          <button @click="removeItem(index)" class="btn  btn-sm ml-2" style="background-color: #C42021; color:white ;">Remover</button>
         </li>
       </ul>
     </div>
@@ -46,7 +46,8 @@
 
         <button
           type="submit"
-          class="btn btn-primary w-100"
+          class="btn w-100"
+           style="background-color: #197278; color:white ;"
         >
           Atualizar Item
         </button>
@@ -105,13 +106,15 @@
           <div class="modal-footer">
             <button
               @click="confirmSubmit"
-              class="btn btn-success"
+              class="btn "
+              style="background-color: #6FEDB7; color:white ;"
             >
               Confirmar
             </button>
             <button
               @click="closeModal"
-              class="btn btn-danger"
+              class="btn "
+              style="background-color: #C42021; color:white ;"
             >
               Cancelar
             </button>

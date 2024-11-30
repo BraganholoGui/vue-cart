@@ -3,10 +3,10 @@
     <div style="display: flex; justify-content: space-between;">
       <h1 class="text-center mb-5 text-3xl font-bold">Usuários</h1>
       <div style="gap: 5px; display: flex;">
-        <button style="border-radius: 15px; background-color: cadetblue; padding: 5px; width: 100px; height: 50px;" @click="cleanCache">
+        <button style="border-radius: 15px; background-color: #2D3047; color: white; padding: 5px; width: 100px; height: 50px;" @click="cleanCache">
         LIMPAR 
         </button>
-        <button style="border-radius: 15px; background-color:aqua; padding: 5px; width: 200px; height: 50px;" @click="redirect">
+        <button style="border-radius: 15px; background-color:#6FEDB7; padding: 5px; width: 200px; height: 50px;" @click="redirect">
           NOVO USUÁRIO
         </button>
       </div>
@@ -38,8 +38,8 @@
             <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
             <p class="card-text"><strong>Telefone:</strong> {{ user.phone }}</p>
             <div class="d-flex justify-content-between">
-              <button class="btn btn-info" @click="viewUser(user.id)">Visualizar</button>
-              <button class="btn btn-danger" @click="deleteUser(user.id)">Excluir</button>
+              <button class="btn" style="background-color: #197278; color:white ;" @click="viewUser(user.id)">Visualizar</button>
+              <button class="btn" style="background-color: #C42021; color:white ;" @click="deleteUser(user.id)">Excluir</button>
             </div>
           </div>
         </div>
@@ -92,8 +92,6 @@ export default {
     
     async viewUser(id) {
       try {
-        // const response = await this.fetchUser(id);
-        // this.selectedUser = response.data;
         this.$router.push(`/users/${id}`);
       } catch (error) {
         alert(error.message);

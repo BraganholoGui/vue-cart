@@ -22,7 +22,7 @@
       </div>
       
       <div class="col-12 col-md-4">
-        <button @click="applyFilter" class="btn btn-primary w-100">
+        <button @click="applyFilter" class="btn  w-100" style="background-color: #197278; color:white ;">
           Aplicar Filtro
         </button>
       </div>
@@ -39,12 +39,13 @@
             <p class="card-text mb-3">ID do Usuário: {{ cart.userId }}</p>
             <p class="card-text mb-3">Data: {{ formatDate(cart.date) }}</p>
             <div class="mt-auto d-flex justify-content-between">
-              <router-link :to="'/cart/' + cart.id" class="btn btn-primary">
+              <router-link :to="'/cart/' + cart.id" class="btn "  style="background-color: #197278; color:white ;">
                 Ver Detalhes
               </router-link>
               <button
                 @click="deleteCart(cart.id)"
-                class="btn btn-danger"
+                class="btn "
+                style="background-color: #C42021; color:white ;"
               >
                 Excluir
               </button>

@@ -3,10 +3,10 @@
     <div style="display: flex; justify-content: space-between;">
       <h1 class="text-center mb-5 text-3xl font-bold">Produtos</h1>
       <div style="gap: 5px; display: flex;">
-        <button style="border-radius: 15px; background-color: cadetblue; padding: 5px; width: 100px; height: 50px;" @click="cleanCache">
-        LIMPAR 
+        <button style="border-radius: 15px; background-color: #2D3047; padding: 5px; width: 100px; height: 50px;" @click="cleanCache">
+          LIMPAR
         </button>
-        <button style="border-radius: 15px; background-color:aqua; padding: 5px; width: 200px; height: 50px;" @click="redirectProduct">
+        <button style="border-radius: 15px; background-color:#6FEDB7; color: white; padding: 5px; width: 200px; height: 50px;" @click="redirectProduct">
           NOVO PRODUTO
         </button>
       </div>
@@ -50,6 +50,7 @@
         class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
       >
         <div class="card h-100">
+          <img :src="product.image" :alt="product.title" class="card-img-top" style="object-fit: cover; height: 200px;" />
           <div class="card-body d-flex flex-column">
             <h5 class="card-title mb-3 text-truncate">{{ product.title }}</h5>
             <p class="card-text text-truncate mb-3">{{ product.description }}</p>
@@ -57,13 +58,14 @@
             <div class="mt-auto d-flex justify-content-between">
               <button
                 @click="viewProduct(product.id)"
-                class="btn btn-primary"
+                class="btn "
+                style="background-color: #197278; color:white ;"
               >
                 Visualizar
               </button>
               <button
                 @click="deleteProduct(product.id)"
-                class="btn btn-danger"
+                class="btn "style="background-color: #C42021; color:white ;"
               >
                 Excluir
               </button>
@@ -113,11 +115,11 @@ export default {
         this.allProducts.sort((a, b) => b.rating.rate - a.rating.rate);
       }
     },
-    redirectProduct(){
+    redirectProduct() {
       this.$router.push('/products/new');
     },
-    cleanCache(){
-      localStorage.removeItem('products')
+    cleanCache() {
+      localStorage.removeItem('products');
       window.location.reload();
     }
   },
